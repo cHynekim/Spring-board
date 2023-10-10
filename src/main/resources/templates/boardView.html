@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1 th:text="${board.title}"> 제목 </h1>
+	<p th:text="${board.content}"> 내용 </p>
+	<!-- <a th:href="@{${board.filepath}}"> 파일 보기 </a> -->
+	<img th:src="@{${board.filepath}}">
+	<a th:href="@{/board/modify/{id}(id=${board.id})}">글 수정</a>
+	<a th:href="@{/board/delete(id=${board.id})}">글 삭제</a>
+	<form th:action="@{/board/update-heart/{id}(id=${board.id})}" method="post">
+		<button class="like-btn" type="submit">
+			<span th:if="${board.heart}">좋아요 취소</span>
+			<span th:unless="${board.heart}">좋아요</span>
+		</button>
+	</form>
+	
+	
+<!-- 	<script>
+		let likeBtn = document.querySelector('.like-btn');
+		let current = likeBtn.getAttribute('data-heart');
+		let likeCont = current === 'true' ? "좋아요 취소" : "좋아요";
+		likeBtn.innerHTML = likeCont;
+		
+		likeBtn.onclick = () => {
+			current = current === 'true' ? 'false' : 'true';
+			let likeCont = current === 'true' ? "좋아요 취소" : "좋아요";
+			likeBtn.innerHTML = likeCont;
+			
+			fetch('/board/update-heart/{id}', {
+			      method: 'POST', // or 'PUT' if you prefer
+			      headers: {
+			        'Content-Type': 'application/json',
+			      },
+			      body: JSON.stringify({
+			        boardId: "${board.id}", // Pass the board ID to identify the board
+			        newHeartValue: current,
+			      }),
+			    })
+			      .then((response) => {
+			        if (!response.ok) {
+			          throw new Error('Network response was not ok');
+			        }
+			        // Handle the response as needed
+			      })
+			      .catch((error) => {
+			        console.error('There was a problem with the fetch operation:', error);
+			      });
+			}
+		</script> -->
+</body>
+</html>
